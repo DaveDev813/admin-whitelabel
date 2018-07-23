@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/DaveDev813/project-startup-vue-jquery-ci-adminlte/issues"
   },
-  "homepage": "https://github.com/DaveDev813/project-startup-vue-jquery-ci-adminlte#readme"
+  "homepage": "https://github.com/DaveDev813/project-startup-vue-jquery-ci-adminlte#readme",
+  "dependencies": {
+    "admin-lte": "^2.4.8"
+  }
 }
