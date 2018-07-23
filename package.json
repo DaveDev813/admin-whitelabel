@@ -1,0 +1,25 @@
+{
+  "name": "project-startup-vue-jquery-ci-adminlte",
+  "version": "1.0.0",
+  "description": "project startup bootstrap",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaveDev813/project-startup-vue-jquery-ci-adminlte.git"
+  },
+  "keywords": [
+    "vue",
+    "jquery",
+    "codeigniter",
+    "adminlte"
+  ],
+  "author": "rodave and jimmy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DaveDev813/project-startup-vue-jquery-ci-adminlte/issues"
+  },
+  "homepage": "https://github.com/DaveDev813/project-startup-vue-jquery-ci-adminlte#readme"
+}
