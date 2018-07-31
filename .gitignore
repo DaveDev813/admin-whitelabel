@@ -10,6 +10,6 @@ $RECYCLE.BIN/
 # IDE config
 nbproject/
 
-# Gulp Tasks
+# node stuff
 node_modules/
 
