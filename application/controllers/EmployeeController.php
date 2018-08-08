@@ -11,8 +11,8 @@ class EmployeeController extends SYS_CoreController{
 		parent::__construct($this, array(
 			"module"  	  => "employee",
 			"primary" 	   => "employee_id",
-			"sources" 	   => array(),
-			"styles"  	   => array()
+			"sources" 	   => array("validation.js","ekek.js",""),
+			"styles"  	   => array("lodi.css",)
 		));
 	}
 
@@ -32,8 +32,13 @@ class EmployeeController extends SYS_CoreController{
 
 	}
 
+	public function validation(){
+		
+	}
+
 	public function formFields(){	
 
+		//id, class, css, x
 		$this->setFields("employee_id", "INT", array("NOT NULL", "PRIMARY KEY", "AUTO_INCREMENT"), TRUE);
 
 		$this->setFields("first_name", "longtext(50)", array("NOT NULL", "DEFAULT 'N/A'"));

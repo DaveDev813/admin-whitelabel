@@ -31,6 +31,37 @@
         </li>
         <li class="treeview">
           <a href="#">
+            <i class="fa fa-user-circle"></i> <span>Customers</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li>
+              <a href="<?= base_url() ?>customer/list">
+                <i class="fa fa-user-circle"></i><span>Manage Customers</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?= base_url() ?>customer/list/?q=1">
+                <i class="fa fa-user-circle"></i><span>Purchase History</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?= base_url() ?>customer/list/?q=1">
+                <i class="fa fa-user-circle"></i><span>Promotions</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?= base_url() ?>customer/loyalty/?q=1">
+                <i class="fa fa-clock-o"></i><span>Loyalty Program</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
             <i class="fa fa-user-circle"></i> <span>Employee</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -60,7 +91,7 @@
           </ul>
         </li>
 
-        <li class="header">System</li>
+        <li class="header">SYSTEM</li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-cog"></i> <span>System Settings</span>
