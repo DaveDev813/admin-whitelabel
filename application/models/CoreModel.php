@@ -37,9 +37,9 @@ class CoreModel extends CI_Model{
 		return $query->num_rows();
     }
 
-    public function getRecordById($module, $id){
+    public function getRecordById($module, $primary, $id){
 
-		return $this->db->select("*")->from($module)->where("id", $id)->get()->row();
+		return $this->db->select("*")->from($module)->where($primary, $id)->get()->row();
     }
 
     public function getRecords($module, $columns, $filter, $limit, $offset, $order = array()){

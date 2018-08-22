@@ -7,6 +7,7 @@ class SYS_CoreController extends CI_Controller{
 	public $record 		      = array();
 	public $dataset 		  = array();
 	public $columns           = array();
+	public $table_columns     = array();
 	public $fields     	      = array();
 	public $post_result_error = 0;
 	public $method         	  = "";
@@ -28,21 +29,24 @@ class SYS_CoreController extends CI_Controller{
     public function __construct($child, $module){
 
         parent::__construct();
- 	
-		$this->POST   = $_POST;
-		$this->GET 	  = $_GET;
-		$this->REQ    = $_REQUEST;
-        $this->module = $module["module"];
-		$this->action = $this->uri->segment(2);
-		$this->method = $this->input->server('REQUEST_METHOD');
-		$this->child  = $child;
+ 		
+ 		$this->primary = $module["primary"]; 
+		$this->POST    = $_POST;
+		$this->GET 	   = $_GET;
+		$this->REQ     = $_REQUEST;
+        $this->module  = $module["module"];
+		$this->action  = $this->uri->segment(2);
+		$this->method  = $this->input->server('REQUEST_METHOD');
+		$this->child   = $child;
 
 		if($this->action == "edit"){
-			$this->record = $this->CoreModel->getRecordById($this->module, $this->GET["id"]);
+
+			$this->record = $this->CoreModel->getRecordById($this->module, $this->primary, $this->GET["id"]);
 		}
 
 		$this->child->fields();	
 
+		//re/generate the tables structure of the module
 		$this->compile();
 
 		if(in_array($this->action, array("add","edit"))){
@@ -63,12 +67,9 @@ class SYS_CoreController extends CI_Controller{
 				if($child->validate()){
 
 					//core action execute
-					if($this->{ "core_".$this->action}()){
-						$this->post_result_error = 0;
-					}else{
-						$this->post_result_error = 1;
-					}
+					$this->post_result_error = intval($this->{ "core_".$this->action}());
 
+					//execute further procedures of the module after the request (add/edit)
 					$this->child->postActionResult();
 
 					if($this->post_result_error == 0){
@@ -107,19 +108,18 @@ class SYS_CoreController extends CI_Controller{
 		die("Module Error : unknown action given");
     }
 
-    private function core_add(){
-
-		//call custom module procedures
-		$this->child->{$this->action}();
+    private function setRequestValues(){
 
     	//get the columns of the tabl e
     	$this->moduleColumns = $this->CoreModel->getColumns($this->module);
 
-    	$new_row = array();
+    	$row = array();
 
 		foreach(array_keys($this->fields) as $field){
 
 			$column_exits = FALSE;
+
+			$column_conf  = NULL;
 
 			foreach($this->moduleColumns as $column){
 
@@ -127,17 +127,42 @@ class SYS_CoreController extends CI_Controller{
 
 					$column_exits = TRUE;
 
+					$column_conf  = $column;
+
 					break;
 				}
 			}
 
 			if($column_exits){
 
-				$new_row[$field] = $this->POST[$field];
+				if(in_array($column_conf->Type, array("datetime", "date"))){
+
+					if(strtotime($this->POST[$field]) == FALSE){
+
+						die("Can't format the value of " . $field);
+					}
+
+					$row[$field] = date("Y-m-d", strtotime($this->POST[$field]));
+					
+				}else{
+
+					$row[$field] = $this->POST[$field];
+				}
 			}
 		}
 
-		return $this->CoreModel->insert($this->module, $new_row);
+		return $row;
+    }
+
+    private function core_add(){
+
+		//call custom module procedures
+		$this->child->{$this->action}();
+
+		//set post values to the corresponding table columns
+		$row = $this->setRequestValues();
+
+		$this->CoreModel->insert($this->module, $row);
      }
 
     private function core_edit(){
@@ -145,42 +170,15 @@ class SYS_CoreController extends CI_Controller{
 		//call custom module procedures
 		$this->child->{$this->action}();
 
-    	//get the columns of the tabl e
-    	$this->moduleColumns = $this->CoreModel->getColumns($this->module);
+		//set post values to the corresponding table columns
+		$row = $this->setRequestValues();
 
-    	$rows = array();
-
-		foreach(array_keys($this->fields) as $field){
-
-			$column_exits = FALSE;
-
-			foreach($this->moduleColumns as $column){
-
-				if($column->Field == $field){
-
-					$column_exits = TRUE;
-
-					break;
-				}
-			}
-
-			if($column_exits){
-
-				$rows[$field] = $this->POST[$field];
-			}
-		}
-
-		return $this->CoreModel->update($this->module, $rows, $this->GET["id"]);
-    }
-
-    private function compile(){
-
-		// var_dump($this->CoreModel->isTableExists("customers"));
+		$this->CoreModel->update($this->module, $row, $this->GET["id"]);
     }
 
     private function getDataSet(){
 
-    	$columns = "id, ";
+    	$columns =  $this->primary . ", ";
 
     	foreach($this->columns as $field => $conf){
 
@@ -200,8 +198,8 @@ class SYS_CoreController extends CI_Controller{
 
     	if($this->action == "edit"){
 
+    		//pre set the values of the field
 			if(isset($this->record->{$id})){
-
 	    		if($type == "select"){
 	    			$options["selected"] = $this->record->{$id};
 	    		}else{
@@ -218,13 +216,9 @@ class SYS_CoreController extends CI_Controller{
 
     protected function setFormField($name, $type, $properties){
     		
-    	//Add further validations here..    	
+    	//Add further validations here..
 
-    	$this->formFields[] = array(
-    		"name" => $name,
-    		"type" => $type,
-    		"prop" => $properties
-    	);
+    	$this->formFields[] = array("name" => $name, "type" => $type, "prop" => $properties);
     }
 
     protected function setFields($column_name, $type, $options, $isPrimary = FALSE){
@@ -234,24 +228,56 @@ class SYS_CoreController extends CI_Controller{
     	foreach($options as $option){
     		$col_options .= " " . $option . " ";
     	}
-
-    	$this->fields[]  = $column_name . " " . $type . $col_options; 
+    	if($isPrimary){
+    		array_unshift($this->table_columns, $column_name . " " . $type . $col_options);
+    	}else{
+	    	$this->table_columns[$column_name]  = $column_name . " " . $type . $col_options; 
+    	}
     }
 
-	private function generate(){
-		
-		$existing = $this->db->query("SHOW TABLES LIKE '%" . $this->module . "%'");
+	private function compile(){
 
-		if(count($existing->result())){
+		if(!$this->CoreModel->isTableExists($this->module)){
 
-			$this->db->query('RENAME TABLE ' . $this->module . ' TO ' . $this->module . '_tmp');
+			$this->setFields($this->primary, "INT", array("NOT NULL", "PRIMARY KEY", "AUTO_INCREMENT"), TRUE);
 
-			$rows = $this->db->query("SELECT * FROM " . $this->module . "_tmp");
+			$this->db->query('CREATE TABLE '. $this->module .' (' . implode(" , ", $this->table_columns) . ')');
+			
+	    	$this->moduleColumns = $this->CoreModel->getColumns($this->module);
 
-			$this->db->query('CREATE TABLE '. $this->module .' (' . implode(" , ", $this->fields) . ')');			
 		}else{
 
-			$this->db->query('CREATE TABLE '. $this->module .' (' . implode(" , ", $this->fields) . ')');			
+	    	$this->moduleColumns = $this->CoreModel->getColumns($this->module);
+
+			//If the table exists, alter the tables
+			$altered_columns = "";
+
+			foreach($this->table_columns as $name => $column){
+
+				$action  	   = "CHANGE"; 
+
+				$is_col_exists = FALSE;
+
+				//check if the $name exists on the createad table
+				foreach($this->moduleColumns as $columns){
+					//if the $name found a match it means it has not been renamed
+					if($name == $columns->Field){
+
+						$is_col_exists = TRUE;
+
+						break;
+					}
+				}
+
+				if(!$is_col_exists){
+
+					$action = "ADD";
+				}
+
+				$altered_columns .= " " . $action . " " . ((!$is_col_exists) ? "" : $name) . " " . $column . ", ";
+			}
+
+			$this->db->query('ALTER TABLE ' . $this->module . rtrim($altered_columns, ", "));
 		}
 	} 
 }

@@ -6,16 +6,31 @@ include_once getcwd() . '\application\core\SYS_CoreController.php';
 
 class CustomerController extends SYS_CoreController{
 
-	public $add_page_title  = "Add New Customer";
-	public $edit_page_title = "Edit Customer";
-	public $add_btn_label   = "Save Customer";
-	public $edit_btn_label  = "Update Customer";
+	public 	  $add_page_title  = "Add New Customer";
+	public 	  $edit_page_title = "Edit Customer";
+	public 	  $add_btn_label   = "Save Customer";
+	public 	  $edit_btn_label  = "Update Customer";
 
 	public function __construct(){
 
 		parent::__construct($this, array(
 			"module"  => "customer",
 			"primary" => "customer_id",
+			"columns" => array(
+				$this->setFields("customer_no",     "varchar(200)",  array("NOT NULL", "DEFAULT 'N/A'", "UNIQUE")),
+				$this->setFields("first_name",      "varchar(150)",  array("NOT NULL", "DEFAULT 'N/A'")),
+				$this->setFields("middle_name",     "varchar(150)",  array("NULL", 	   "DEFAULT 'N/A'")),
+				$this->setFields("last_name",       "varchar(150)",  array("NOT NULL", "DEFAULT 'N/A'")),
+				$this->setFields("gender", 		    "varchar(20)",   array("NOT NULL", "DEFAULT 'N/A'")),
+				$this->setFields("date_of_birth",   "datetime", 	 array("NULL", 	   "DEFAULT CURRENT_TIMESTAMP")),
+				$this->setFields("email_address",   "varchar(150)",  array("NOT NULL", "DEFAULT 'N/A'")),
+				$this->setFields("contact_no",      "varchar(20)",   array("NULL", 	   "DEFAULT 'N/A'")),
+				$this->setFields("company_name",    "varchar(100)",  array("NULL", 	   "DEFAULT 'N/A'")),
+				$this->setFields("company_email",   "varchar(100)",  array("NULL", 	   "DEFAULT 'N/A'")),
+				$this->setFields("company_contact", "varchar(50)",   array("NULL", 	   "DEFAULT 'N/A'")),
+				$this->setFields("company_address", "varchar(500)",  array("NULL", 	   "DEFAULT 'N/A'")),
+				$this->setFields("date_created",    "datetime",      array("NOT NULL", "DEFAULT CURRENT_TIMESTAMP")),
+			),
 			"sources" => array(),
 			"styles"  => array()
 		));
@@ -46,6 +61,20 @@ class CustomerController extends SYS_CoreController{
 
 	public function edit(){
 
+	}
+
+
+	public function columns(){
+		
+		$this->setColumns('customer_no', 	'Customer No.', array());
+
+		$this->setColumns('name', 		 	'Name',  		array(
+			"format" => "CONCAT(first_name, ', ', last_name, ' ', middle_name)",
+		));
+
+		$this->setColumns('email_address', 	'Email', 		array());
+
+		$this->setColumns('contact_no', 	'Contact No.',	array());
 	}
 
 	public function fields(){
@@ -99,38 +128,4 @@ class CustomerController extends SYS_CoreController{
 			"rows"        => 5,
 		));
 	}
-
-	public function columns(){
-		
-		$this->setColumns('customer_no', 	'Customer No.', array());
-		$this->setColumns('name', 		 	'Name',  		array(
-			"format" => "CONCAT(first_name, ', ', last_name, ' ', middle_name)",
-		));
-		$this->setColumns('email_address', 	'Email', 		array());
-		$this->setColumns('contact_no', 	'Contact No.',	array());
-
-	}
-
-	// public function formFields(){	
-
-	// 	$this->setFields("id", "INT", array("NOT NULL", "PRIMARY KEY", "AUTO_INCREMENT"), TRUE);
-
-	// 	$this->setFields("customer_no",   "varchar(200)",  array("NOT NULL", "DEFAULT 'N/A'", "UNIQUE"));
-
-	// 	$this->setFields("first_name",    "varchar(150)", array("NOT NULL", "DEFAULT 'N/A'"));
-
-	// 	$this->setFields("middle_name",   "varchar(150)", array("NOT NULL", "DEFAULT 'N/A'"));
-
-	// 	$this->setFields("last_name",     "varchar(150)", array("NOT NULL", "DEFAULT 'N/A'"));
-
-	// 	$this->setFields("gender", 		  "varchar(20)",  array("NULL", "DEFAULT 'N/A'"));
-
-	// 	$this->setFields("date_of_birth", "datetime", 	  array("NULL", "DEFAULT CURRENT_TIMESTAMP"));
-
-	// 	$this->setFields("email_address", "varchar(150)", array("NOT NULL", "DEFAULT 'N/A'"));
-
-	// 	$this->setFields("contact_no",    "varchar(20)",  array("NULL", "DEFAULT 'N/A'"));
-
-	// 	$this->setFields("date_created",  "datetime",     array("NULL", "DEFAULT CURRENT_TIMESTAMP"));
-	// }
 }

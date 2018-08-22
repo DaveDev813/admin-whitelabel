@@ -1,9 +1,27 @@
-  <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <br>
-  </footer>
+	<!-- /.content-wrapper -->
+	<footer class="main-footer">
+		<br>
+	</footer>
 
-  <!-- Control Sidebar --> 
+	<!-- MODALS -->
+	<div class="modal modal-danger fade" id="modal-danger" style="display: none;">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	      <span aria-hidden="true">×</span></button>
+	    <h4 class="modal-title">Delete Confirmation</h4>
+	  </div>
+	  <div class="modal-body">
+	    <p>Are you sure, you want to remove this record?</p>
+	  </div>
+	  <div class="modal-footer">
+	    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancel</button>
+	    <button type="button" class="btn btn-outline">Yes, Remove Record</button>
+	  </div>
+	</div>
+	</div>
+	</div>
 </div>
 
 <!-- jQuery 3 -->
@@ -56,6 +74,7 @@
 <script src="<?= base_url() ?>assets/admin-lte/bower_components/select2/dist/js/select2.min.js"></script>
 <!-- DATA TABLES -->
 <script src="<?= base_url() ?>assets/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js""></script>
+
 <script src="<?= base_url() ?>assets/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js""></script>
 
 <script type="text/javascript">

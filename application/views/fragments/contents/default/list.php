@@ -34,7 +34,7 @@
             <br>
             <div class="row">              
               <div class="col-md-12">
-                <table class="table table-bordered table-default">
+                <table class="table table-bordered table-striped striped table-default">
                   <thead>              
                     <tr>
                       <th> Action</th>
@@ -47,15 +47,21 @@
                   <tbody>
                     <?php foreach($CORE->dataset as $index => $rows){ ?> 
                       <tr>
-                        <td>
-                          <a class="btn btn-xs btn-warning btn-block" href="<?= base_url() . $CORE->module . "/edit?id=" . $rows["id"] ?>">
-                            <span class="fa fa-pencil"></span>&nbsp; Edit
-                          </a>
+                        <td style="width:80px">
+                          <div class="btn-group-vertical">
+                            <a class="btn btn-sm btn-primary btn-block">
+                              <span class="fa fa-eye"></span>&nbsp; View
+                            </a>
+                            <a class="btn btn-sm btn-warning" href="<?= base_url() . $CORE->module . "/edit?id=" . $rows[$CORE->primary] ?>">
+                              <span class="fa fa-pencil"></span>&nbsp; Update
+                            </a>
+                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-danger">
+                              <span class="fa fa-remove"></span>&nbsp; Remove
+                            </button>
+                          </div>
                         </td>
                         <?php foreach($CORE->columns as $field => $columns){ ?> 
-                          <td>
-                              <?= $rows[$field] ?>
-                          </td>
+                          <td><?= $rows[$field] ?></td>
                         <?php } ?>
                       </tr>
                     <?php } ?>

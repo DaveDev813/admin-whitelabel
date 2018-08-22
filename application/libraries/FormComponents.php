@@ -129,6 +129,8 @@ class FormComponents{
 
 	private function textarea(){
 
+		$value = !empty($this->value) ? $this->value[0] : "";
+
 		if(isset($this->options["class"]) && !empty($this->options["class"])){
 			$this->options["class"] .= "form-control";
 		}else{
@@ -139,7 +141,7 @@ class FormComponents{
 		$html .= $this->setLabel();
 	    $html .= "<textarea id='".$this->id."' name='".$this->name."'";
 	    $html .= $this->setProperties();
-	    $html .= "></textarea>";
+	    $html .= ">".$value."</textarea>";
 		$html .= "</div>";
 
 		return $html;
