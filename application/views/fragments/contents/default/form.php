@@ -2,7 +2,7 @@
 <div class="content-wrapper">
 
   <section class="content-header">
-    <h1>Customer<small>Create</small></h1>
+    <h1><?= ucfirst(($CORE->action == "add") ? $MODULE->add_page_title : $MODULE->edit_page_title) ?></h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
       <li><a href="#"><i class="fa fa-user-circle-o"></i> Customer</a></li>
@@ -18,18 +18,18 @@
           
           <!--  BOX HEADER -->
           <div class="box-header with-border">
-            <h3 class="box-title">Customer Information</h3>
+            <h3 class="box-title"><?= ucfirst(str_replace('_', ' ', $CORE->module)) ?> information</h3>
           </div>
 
           <!--  BOX BODY -->
           <div class="box-body">
-            <form role="form" method="POST" class="col-md-12">
+            <form role="form" method="POST" class="col-md-12" enctype="multipart/form-data">
 
-              <?php if($CORE->method == "POST" && $CORE->post_result_error == 1){ ?> 
+              <?php if($CORE->method == "POST" && isset($ERROR)){ ?> 
                 <div class="alert alert-danger alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                  <h4><i class="icon fa fa-ban"></i> Failed to add new customer!</h4>
-                  <?= $CORE->post_result_error_msg; ?>
+                  <h4><i class="icon fa fa-ban"></i> Failed to complete request</h4>
+                  <?= $ERROR["msg"]; ?>
                 </div>
               <?php } ?>
 

@@ -42,7 +42,7 @@ class CoreModel extends CI_Model{
 		return $this->db->select("*")->from($module)->where($primary, $id)->get()->row();
     }
 
-    public function getRecords($module, $columns, $filter, $limit, $offset, $order = array()){
+    public function getRecords($module, $columns, $filter = array(), $limit = 0, $offset = 0, $order = array()){
 
     	$this->db->select($columns);
 
@@ -57,6 +57,11 @@ class CoreModel extends CI_Model{
 		return $this->db->get()->result_array();
     }
 
+    public function insert_batch($module, $batch){
+
+        $this->db->insert_batch($module, $batch);
+    }
+
     public function insert($module, $values){
 
     	$this->db->insert($module, $values);
@@ -66,10 +71,17 @@ class CoreModel extends CI_Model{
 
     public function update($module, $values, $id){
 
-    	$this->db->where("id", $id);
-    	$this->db->replace($module, $values);
+        $this->db->where($this->primary, $id);
+        $this->db->update($module, $values); 
 
     	return $this->db->affected_rows();
+    }
+
+    public function remove($module, $filter){
+        
+        $this->db->where($filter);
+        
+        $this->db->delete($module);
     }
 }
 

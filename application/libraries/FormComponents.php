@@ -52,11 +52,19 @@ class FormComponents{
 	    	if(empty($prop) || is_null($prop)){
 	    		$properties .= $value . " ";
 	    	}else{
-				$properties .= $prop . "='" . $value . "'";
+				
+				if(!is_array($value)){
+
+					$properties .= $prop . "='" . $value . "'";				
+				}
 	    	}
 		}
 
 		return $properties;
+	}
+
+	public function seperator($msg){
+		return "<p style=\"border-bottom:3px solid #3c8dbc; width:100%; padding-bottom:5px; font-size: 1.2em;font-weight: 700\">".$msg."</p><br>";
 	}
 
 	private function setLabel(){
@@ -70,6 +78,25 @@ class FormComponents{
 		return "<label>". $this->label . " " . $required . "</label>";
     }
 
+	private function number(){
+
+		if(isset($this->options["class"]) && !empty($this->options["class"])){
+			$this->options["class"] .= "form-control";
+		}else{
+			$this->options["class"] = "form-control";
+		}
+
+		$value = !empty($this->value) ? $this->value[0] : "";
+		$html  = "<div class=\"form-group\">";
+		$html .= $this->setLabel();
+	    $html .= "<input type='number' id='".$this->id."' name='".$this->name."' value='".$value."'" ; 
+	    $html .= $this->setProperties();
+		$html .= " />";
+		$html .= "</div>";
+
+		return $html;
+	}
+
 	private function input(){
 
 		if(isset($this->options["class"]) && !empty($this->options["class"])){
@@ -81,12 +108,37 @@ class FormComponents{
 		$value = !empty($this->value) ? $this->value[0] : "";
 		$html  = "<div class=\"form-group\">";
 		$html .= $this->setLabel();
-	    $html .= "<input id='".$this->id."' name='".$this->name."' value='".$value."'" ; 
+	    $html .= "<input type='text' id='".$this->id."' name='".$this->name."' value='".$value."'" ; 
 	    $html .= $this->setProperties();
 		$html .= " />";
 		$html .= "</div>";
 
 		return $html;
+	}
+
+	private function password(){
+
+		if(isset($this->options["class"]) && !empty($this->options["class"])){
+			$this->options["class"] .= "form-control";
+		}else{
+			$this->options["class"] = "form-control";
+		}
+
+		$value = !empty($this->value) ? $this->value[0] : "";
+		$html  = "<div class=\"form-group\">";
+		$html .= $this->setLabel();
+	    $html .= "<input type='password' id='".$this->id."' name='".$this->name."' value='".$value."'";
+	    $html .= $this->setProperties();
+		$html .= " />";
+		$html .= "</div>";
+
+		$html .= "<div class=\"form-group\">";
+		$html .= "<label>Confirm Password <span style='color:red'>*</span></label>";
+	    $html .= "<input type='password' id='con_".$this->id."' name='con_".$this->name."' value='".$value."' class='form-control' />";
+		$html .= "</div>";
+
+
+		return $html;		
 	}
 
 	private function select(){
@@ -139,7 +191,7 @@ class FormComponents{
 
 		$html  = "<div class=\"form-group\">";
 		$html .= $this->setLabel();
-	    $html .= "<textarea id='".$this->id."' name='".$this->name."'";
+	    $html .= "<textarea id='".$this->id."' name='".$this->name."' rows='4' style='resize:none'";
 	    $html .= $this->setProperties();
 	    $html .= ">".$value."</textarea>";
 		$html .= "</div>";
@@ -342,7 +394,7 @@ class FormComponents{
 
 		$html  = "<div class=\"form-group\">";
 		$html .= $this->setLabel();
-		$html .="<select id='".$this->id."' name='".$this->name."' ".$this->setProperties()." multiple='' style=\"width: 100%;\" tabindex=\"-1\" aria-hidden=\"true\" >";
+		$html .="<select id='".$this->id."' name='".$this->name."[]' ".$this->setProperties()." multiple='' style=\"width: 100%;\" tabindex=\"-1\" aria-hidden=\"true\" >";
 
 
 		foreach($this->value as $label => $value){
@@ -357,6 +409,37 @@ class FormComponents{
 		}
 
 		$html .= "</select>";
+		$html .= "</div>";
+
+		return $html;
+	}
+
+	private function fileupload(){
+
+		if(isset($this->options["class"]) && !empty($this->options["class"])){
+			$this->options["class"] .= "form-control file-uploader";
+		}else{
+			$this->options["class"] = "form-control file-uploader";
+		}
+
+		$value = !empty($this->value) ? $this->value[0] : "";
+		$html  = "<div class=\"form-group\">";
+		$html .= $this->setLabel();
+    	$html .= "<label class=\"btn btn-primary btn-file\" style='display:block; width:20%'>";
+	    $html .= "Browse <input type='file' multiple accept=\".png, .jpg, .jpeg\"  id='".$this->id."' name='".$this->name."[]'" ; 
+	    $html .= $this->setProperties();
+		$html .= " />";
+	    $html .= "</label>";
+	    $html .= "<div class='img-preview-container'>";
+
+	    if(isset($this->options["selected"]) && is_array($this->options["selected"])){
+			
+			foreach($this->options["selected"] as $img){
+				$html .= "<img class=\"file-to-upload-preview\" src=\"". base_url() . $img ."\"/>";
+			}
+	    }
+
+	    $html .= "</div>";
 		$html .= "</div>";
 
 		return $html;

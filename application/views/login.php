@@ -3,7 +3,7 @@
 <body class="hold-transition login-page" style="background:#c8dcd8">
 <div class="login-box">
   <div class="login-logo">
-    <a href="<?= base_url() ?>assets/admin-lte/index2.html"><b>Admin</b>WhiteLabel</a>
+    <a href="<?= base_url() ?>assets/admin-lte/index2.html"><b>E-COM</b> | Administrator</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -11,14 +11,18 @@
 
     <form action="<?= base_url() ?>process/login" method="post">
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="Username">
+        <input type="text" name="username" class="form-control" placeholder="Username">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
+        <input type="password" name="password" class="form-control" placeholder="Password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
+      <?php if(isset($message)){ ?>
+        <p class="login-box-msg" style="color:red"><?= $message ?></p>
+      <?php } ?>
       <div class="row">
+
 <!--         <div class="col-xs-8">
           <div class="checkbox icheck">
             <label>
@@ -43,7 +47,7 @@
     </div>
  -->    <!-- /.social-auth-links -->
 
-    <a href="#">I forgot my password</a><br>
+   <!-- <a href="#">I forgot my password</a><br> -->
 <!--     <a href="register.html" class="text-center">Register a new membership</a> -->
 
   </div>

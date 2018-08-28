@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Dashboard</title>
+  <title>ECOM-Admin | RRJ</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -51,6 +51,9 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
+
+  <link rel="stylesheet" href="<?= base_url() ?>assets/css/main.css">
+
   <style type="text/css">
     
   </style>
@@ -62,10 +65,7 @@
   <header class="main-header">
     <!-- Logo -->
     <a href="index2.html" class="logo">
-      <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>A</b>WL</span>
-      <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b> WhiteLabel</span>
+      <!-- <img src="http://tempsite.rrj.com.ph/wp-content/uploads/2018/04/RRJ-logo-white.png" style="max-width: 150px"> -->
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -82,7 +82,7 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="">
             <a href="#">
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs" style="text-transform: capitalize;"><?= (str_replace(".", " ", $_SESSION["username"])) ?></span>
             </a>
           </li>
         </ul>

@@ -1,7 +1,4 @@
 	<!-- /.content-wrapper -->
-	<footer class="main-footer">
-		<br>
-	</footer>
 
 	<!-- MODALS -->
 	<div class="modal modal-danger fade" id="modal-danger" style="display: none;">
@@ -47,7 +44,6 @@
 <script src="<?= base_url() ?>assets/admin-lte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
 <script src="<?= base_url() ?>assets/admin-lte/plugins/input-mask/jquery.inputmask.phone.extensions.js"></script>
 <script src="<?= base_url() ?>assets/admin-lte/plugins/input-mask/jquery.inputmask.extensions.js"></script>
-
 
 <script src="<?= base_url() ?>assets/admin-lte/bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
@@ -107,5 +103,44 @@
 		});
 	});
 </script>
+
+<script type="text/javascript">
+   
+    var imagesPreview = function(input, placeToInsertImagePreview){
+
+        if(input.files){
+            var filesAmount = input.files.length;
+
+            for(i = 0; i < filesAmount; i++){
+                var reader = new FileReader();
+
+                reader.onload = function(event){
+
+                    $($.parseHTML('<img class="file-to-upload-preview">')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                }
+
+                reader.readAsDataURL(input.files[i]);
+            }
+        }
+    };
+
+	$(".file-uploader").on('change', function(){
+
+		if(this.files.length <= 5){
+
+			$('div.img-preview-container').empty();
+
+			imagesPreview(this, 'div.img-preview-container');
+			
+		}else{
+
+			alert("Maximum of 5 images only");		
+		}
+	});
+
+</script>
+
 </body>
+
+
 </html>

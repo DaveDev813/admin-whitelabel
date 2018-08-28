@@ -57,13 +57,20 @@ $route['translate_uri_dashes'] = FALSE;
 $route['default_controller']   		= "MainController/home";
 $route['home']   			   		= "MainController/home";
 
-$route['login'] 			   		= "UserController/login";
+$route['login'] 			   		= "MainController/login";
 //processes
-$route['process/login'] 	   		= "UserController/ProcessLogin";
+$route['process/login'] 	   		= "MainController/ProcessLogin";
+$route['process/logout'] 	   		= "MainController/ProcessLogout";
 
 //employee
-$route['employee/(:any)']  			= "EmployeeController";
+$route['user/(:any)']  				= "UserController";
 
 $route['customer/(:any)']  			= "CustomerController";
 
+//products
+$route['products/(:any)'] 			= "ProductsController";
+$route['product_tag/(:any)'] 		= "ProductTagController";
+$route['product_category/(:any)'] 	= "ProductCategoryController";
 
+//positions
+$route['positions/(:any)'] 			= "PositionController";

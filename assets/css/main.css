@@ -1,0 +1,46 @@
+
+.file-to-upload-preview{
+	margin 	    : 3px;
+	max-width 	: 100px;
+	min-width 	: 100px;
+	max-height 	: 90px;
+	width 		: auto;
+	height 		: auto;
+}
+
+.btn-file[type='file']{
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+
+.img-preview-container{
+	padding: 8px;
+    width: 100%;
+    background: #fff;
+    height: auto;
+    min-height: 120px;
+    margin-top: 10px;
+    border: 2px dashed #7e8cbf;
+    max-height: 300px;
+    overflow-y:auto;
+}
+
+
+/*HIUDE SPINNER IN INPUT[NUMBER]*/
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
